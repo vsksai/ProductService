@@ -1,7 +1,10 @@
 package com.scalercourse.productservice.controllers;
 
+import com.scalercourse.productservice.exceptions.ProductNotFoundException;
 import com.scalercourse.productservice.models.Product;
 import com.scalercourse.productservice.services.FakeStoreProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,8 +20,13 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public Product getSingleProduct(@PathVariable long productId){
-        return productService.getSinlgeProduct(productId);
+    public ResponseEntity<Product> getSingleProduct(@PathVariable long productId) throws ProductNotFoundException {
+        try {
+            Product product = productService.getSinlgeProduct(productId);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("")
