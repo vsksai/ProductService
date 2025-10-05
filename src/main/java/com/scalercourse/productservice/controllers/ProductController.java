@@ -3,6 +3,8 @@ package com.scalercourse.productservice.controllers;
 import com.scalercourse.productservice.exceptions.ProductNotFoundException;
 import com.scalercourse.productservice.models.Product;
 import com.scalercourse.productservice.services.FakeStoreProductService;
+import com.scalercourse.productservice.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    private FakeStoreProductService productService;
+    private ProductService productService;
 
-    public ProductController(FakeStoreProductService productService) {
+    public ProductController( @Qualifier("selfProductService") ProductService productService) {
         this.productService = productService;
     }
 
@@ -37,7 +39,7 @@ public class ProductController {
 
     @PostMapping("")
     public Product createProduct(@RequestBody Product product){
-        return null;
+        return productService.createProduct(product);
     }
 
     @PutMapping("/{productId}")
