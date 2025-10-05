@@ -25,8 +25,8 @@ public class FakeStoreProductService implements ProductService {
     @Override
     public List<Product> getAllProducts() {
         ResponseEntity<FakeStoreProductDto[]> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/", FakeStoreProductDto[].class);
-        System.out.println(responseEntity.toString());
-        System.out.println(responseEntity.getBody().toString());
+//        System.out.println(responseEntity.toString());
+//        System.out.println(responseEntity.getBody().toString());
         List<FakeStoreProductDto> fakeStoreProductDtoList = Arrays.asList(responseEntity.getBody());
 
         List<Product> products = new ArrayList<>();
